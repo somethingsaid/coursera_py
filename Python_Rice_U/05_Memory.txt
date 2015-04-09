@@ -1,0 +1,70 @@
+# Cadmus 2015-03-31
+# implementation of card game - Memory
+
+import simplegui, random
+# helper function to initialize globals
+def new_game():
+    global full_deck, exposed, coordx_left, coordx_right, turn_counter, state, pick1, pick2
+    # new deck
+    deck1, deck2 = range(8), range(8)
+    full_deck = deck1 + deck2
+    exposed = []
+    random.shuffle(full_deck)
+    for i in range(0,16):
+        exposed.append(False)
+    coordx_left, coordx_right, turn_counter, state, pick1_index, pick2_index = 0, 50, 0, 0, 0, 0
+    label.set_text("Turns = " + str(turn_counter))
+
+# define event handlers
+def mouseclick(pos):
+    global state, turn_counter, pick1_index, pick2_index
+    deck_index = pos[0] // 50
+    if exposed[deck_index] == False:
+        exposed[deck_index] = True
+        if state == 0:
+            state = 1
+            pick1_index = deck_index
+        elif state == 1:
+            state = 2
+            pick2_index = deck_index
+            turn_counter += 1
+            label.set_text("Turns = " + str(turn_counter))
+        else:
+            state = 1
+            # reset previous cards
+            if full_deck[pick1_index] <> full_deck[pick2_index]:
+                exposed[pick1_index], exposed[pick2_index] = False, False
+                pick1_index = deck_index
+            else:
+                pick1_index = deck_index
+                        
+# cards are logically 50x100 pixels in size    
+def draw(canvas):
+    global full_deck, exposed, coordx_left, coordx_right
+    card_pos = [10, 70]
+    # draw deck on grid and reset card position after each run-thru of list
+    for card_num in range(0, 16):
+        card_corners = [[coordx_left, 0], [coordx_right, 0], [coordx_right, 100], [coordx_left, 100]]
+        if exposed[card_num] == False:
+            canvas.draw_polygon(card_corners , 5, 'Orange', 'Green')
+        elif exposed[card_num] == True:
+            canvas.draw_text(str(full_deck[card_num]), [card_pos[0], card_pos[1]], 60, 'Blue', 'monospace')
+        card_pos[0] += 50
+        coordx_left += 50
+        coordx_right += 50
+    card_pos = [10, 70]
+    coordx_left, coordx_right = 0, 50
+
+
+# create frame and add a button and labels
+frame = simplegui.create_frame("Memory", 800, 100)
+frame.add_button("Reset", new_game)
+label = frame.add_label("Turns")
+
+# register event handlers
+frame.set_mouseclick_handler(mouseclick)
+frame.set_draw_handler(draw)
+
+# get things rolling
+new_game()
+frame.start()

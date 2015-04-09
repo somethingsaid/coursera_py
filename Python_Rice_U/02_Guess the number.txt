@@ -1,0 +1,97 @@
+# BK 2015-03-05 Mini Project #2: Guess the number
+# input will come from buttons and an input field
+# all output for the game will be printed in the console
+
+import simplegui
+import random
+
+# initialize global variables for starting game
+range_upper = 100
+lives = 7
+
+# helper function to start and restart the game
+def new_game():
+    """ starts new game """
+    global secret_number
+    secret_number = random.randrange(0, range_upper)
+    print "New game.  Range is from 0 to", range_upper
+    print "Number of remaining guesses is", lives
+    print ""
+
+
+# define event handlers for control panel
+def range100():
+    """ button that changes the range to [0,100) and starts a new game """
+    global range_upper
+    global lives
+    
+    range_upper = 100
+    lives = 7
+    
+    new_game()
+
+
+def range1000():
+    """ button that changes the range to [0,1000) and starts a new game """
+    global range_upper
+    global lives
+    
+    range_upper = 1000
+    lives = 10
+    
+    new_game()
+    
+def input_guess(guess):
+    """  This is the main game logic """
+    global lives
+    user_guess = int(guess)
+    print "Guess was", user_guess
+    
+    if user_guess <> secret_number:
+        # lose a life if guess is wrong, show remaining lives
+        lives -= 1
+        print "Number of remaining guesses is", lives
+        
+        if lives > 0:
+            if user_guess > secret_number:
+                print "Lower"
+            else:
+                print "Higher"
+        else:
+            # game over, restart new game in current range
+            print "Game over, no more lives.  Secret number was", secret_number
+            print ""
+
+            if range_upper == 100:
+                range100()
+            elif range_upper == 1000:
+                range1000()
+            else:
+                print "TERMINATED DUE TO ERROR"
+ 
+    else:
+        # correct guess, restart new game in current range
+        print "Correct!  Secret number was", secret_number
+        print ""
+
+        if range_upper == 100:
+            range100()
+        elif range_upper == 1000:
+            range1000()
+        else:
+            print "TERMINATED DUE TO ERROR"
+       
+    print ""
+
+    
+
+# create frame
+frame = simplegui.create_frame('Guessing game', 200, 200)
+
+# register event handlers for control elements and start frame
+frame.add_button("Range: [0 - 100)", range100, 200)
+frame.add_button("Range: [0, 1000)", range1000, 200)
+frame.add_input("Enter your guess:", input_guess, 200)
+
+# call new_game 
+new_game()

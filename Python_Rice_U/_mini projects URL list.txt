@@ -1,0 +1,28 @@
+Mini project 1: RPSLS
+http://www.codeskulptor.org/#user39_BYXBHjvWJZ_19.py
+http://www.codeskulptor.org/#user39_Cku8BqP0LHvoXIn_3.py
+
+Mini project 2: Guess the Number
+http://www.codeskulptor.org/#user39_KNYDBmgUQx_45.py
+http://www.codeskulptor.org/#user39_5gnju89V9JWns1O_1.py
+
+Mini project 3: Stopwatch
+http://www.codeskulptor.org/#user39_i9YGK4VErc_67.py
+http://www.codeskulptor.org/#user39_d0gnU8TA917nrAu_2.py
+
+Mini project 4: Pong
+http://www.codeskulptor.org/#user39_rBePUwsms0_63.py
+http://www.codeskulptor.org/#user39_koXZPUw46LeNOh9_0.py
+
+Mini project 5: Memory
+http://www.codeskulptor.org/#user39_YomBk7E4T3_69.py completed
+http://www.codeskulptor.org/#user39_yAj2KndYU8oL0V6_0.py
+
+Mini project 6: Blackjack
+http://www.codeskulptor.org/#user39_7QOtf1aMBs_94.py
+<solved?>    at step 7: implement Stand handler for dealer
+    problems:  line 76 (for i...) TimeLimitError: Program exceed run time
+               Line 79: TimeLimitError: Program exceeded run time limit.
+               line 82 TimeLimitError: Program exceed run time
+               Line 84: TimeLimitError: Program exceeded run time limit.
+               Line 189: TimeLimitError: Program exceeded run time limit.

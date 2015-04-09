@@ -1,0 +1,101 @@
+"""
+Cadmus
+2015-03-13
+Stop-wha?! Stop, hammer time!
+
+Creates a stopwatch - displays elapsed time in M:SS.D format:
+1) Start button starts stopwatch
+2) Stop button stops timer; if you stop at any SS.0 time, score increases by 1
+3) Reset button stops timer, resets score and elapsed time
+"""
+
+# import modules
+import simplegui
+
+# define global variables
+decisec = 0
+t_display = "0:00.00"
+num_wins = 0
+num_games = 0
+keep_score = False
+
+# helper functions
+def format(t):
+    """ helper function, convert deciseconds to A:BC.D format """
+    global t_display
+    
+    # get minutes - 600 deciseconds equals 1 minute
+    t_min = t // 600
+    
+    # get seconds - modulo of 600 gives remaining seconds
+    t_sec = (t % 600) / 10.0
+    
+    # convert to string for display in M:SS.D format
+    if t_sec < 10.0:
+        t_display = str(t_min) + ":0" + str(t_sec)
+    else:
+        t_display = str(t_min) + ":" + str(t_sec)
+    
+    return t_display
+
+def score(w, g):
+    return "Wins/games played: " + str(w) + "/" + str(g)
+
+# define event handlers for buttons; "Start", "Stop", "Reset"
+def start():
+    """ start the timer """
+    global keep_score
+    keep_score = True
+    timer.start()
+
+def stop():
+    """ count score and stop the timer """
+    global num_wins, num_games, keep_score
+    
+    if keep_score == True:
+        num_games += 1
+        if decisec % 10 == 0:
+            num_wins += 1
+    
+    # don't count score if stopwatch is already stopped
+    timer.stop()
+    keep_score = False
+
+def reset():
+    """
+    Nero says, 'RESET EVERYTHING!!!!'
+    https://www.youtube.com/watch?v=1Io0OQ2zPS4
+    
+    stops timer and resets everything
+    """
+    global decisec, num_wins, num_games, keep_score
+    decisec, num_wins, num_games = 0, 0, 0
+    
+    timer.stop()
+    keep_score = False
+    
+def timer_handler():
+    """
+    increment decisec by 1 each time function is called
+    timer object below calls this function once per decisecond
+    """
+    global decisec
+    decisec += 1
+    
+def draw_handler(canvas):
+    """ draw time and score """
+    canvas.draw_text(format(decisec), (40, 149), 75, 'Blue', 'monospace')
+    canvas.draw_text(score(num_wins, num_games), (100, 20), 15, 'Red', 'monospace')
+
+# create frame
+frame = simplegui.create_frame('Stopwatch', 300, 300)
+timer = simplegui.create_timer(100, timer_handler)
+
+# register event handlers
+frame.set_draw_handler(draw_handler)
+frame.add_button("Start", start, 200)
+frame.add_button("Stop", stop, 200)
+frame.add_button("Reset", reset, 200)
+
+# start frame
+frame.start()

@@ -1,0 +1,114 @@
+# Rock-paper-scissors-lizard-Spock template
+# BK 2015-02-22
+
+# The key idea of this program is to equate the strings
+# "rock", "paper", "scissors", "lizard", "Spock" to numbers
+# as follows:
+#
+# 0 - rock
+# 1 - Spock
+# 2 - paper
+# 3 - lizard
+# 4 - scissors
+
+import random
+# helper functions
+
+# Helper function 1
+def name_to_number(name):
+    """
+    Converts name into numeric value
+    """
+    if name.lower() == "rock":
+        return 0
+    elif name.lower() == "spock":
+        return 1
+    elif name.lower() == "paper":
+        return 2
+    elif name.lower() == "lizard":
+        return 3
+    elif name.lower() == "scissors":
+        return 4
+    else:
+        # assign 999 as error value
+        print "Invalid choice entered.  Must be one of: Rock, Paper, Scissors, Lizard, Spock."
+        return 999
+    # convert name to number using if/elif/else
+    # don't forget to return the result!
+
+    
+# Helper function 2
+def number_to_name(number):
+    # delete the following pass statement and fill in your code below
+    """
+    Converts number to name (rock, paper, scissors, lizard, or spock)
+    """
+    if number == 0:
+        return "rock"
+    elif number == 1:
+        return "Spock"
+    elif number == 2:
+        return "paper"
+    elif number == 3:
+        return "lizard"
+    elif number == 4:
+        return "scissors"
+    else:
+        return "Invalid number generated.  Must be an integer between 0 and 4."
+
+    # convert number to a name using if/elif/else
+    # don't forget to return the result!
+    
+
+# Main function
+def rpsls(player_choice): 
+    """
+    Take player choice, random generate computer choice, output win/loss result
+    """
+    # print out the message for the player's choice
+    print "Player chooses", player_choice
+    
+    # convert the player's choice to player_number using the function name_to_number()
+    player_number = name_to_number(player_choice)
+
+    # compute random guess for comp_number using random.randrange()
+    comp_number = random.randrange(0,5)
+
+    # convert comp_number to comp_choice using the function number_to_name()
+    comp_choice = number_to_name(comp_number)
+
+    # print out the message for computer's choice
+    print "Computer chooses", comp_choice
+    
+    # compute difference of comp_number and player_number modulo five
+    diff = (comp_number - player_number) % 5
+
+    
+    # use if/elif/else to determine winner, print winner message
+    if diff > 0 and player_number != 999:
+        # player_number value 999 means invalid choice entered
+        if diff < 3:
+            # if the difference is 1 or 2, then Computer (1st number) wins
+            print "Computer wins!"
+        elif diff < 5:
+            # if the difference is 3 or 4, then Player (2nd number) wins
+            print "Player wins!"
+    elif diff == 0 and player_number != 999:
+        # if the difference is anything else, i.e. 0, then it's a draw
+        print "Player and Computer tie!"
+    else:
+        # i.e. diff is not between 0 and 4; or player_number = 999
+        print "Invalid game result"
+        
+    # print a blank line to separate consecutive games
+    print ""
+
+# test your code - THESE CALLS MUST BE PRESENT IN YOUR SUBMITTED CODE
+rpsls("rock")
+rpsls("Spock")
+rpsls("paper")
+rpsls("lizard")
+rpsls("scissors")
+
+# always remember to check your completed program against the grading rubric
+
